@@ -1,0 +1,73 @@
+LAB
+Google Fly Cup Challenge: Pilot
+
+###Task 1:
+
+Starting off with this command :
+
+gsutil mb -l [REGION] gs://[PROJECT-ID]
+
+
+###Task 2:
+
+BigQuery > Create "drl" dataset > Create Table "pilot-event-times"
+ 
+Cloud Storage : spls/gsp396/lab2.csv
+ 
+Schema : auto-detect
+
+###Task 3:
+ 
+Vertex AI > Workbench > JUPYTERLAB > VAI notebook > Terminal 
+ 
+gsutil cp gs://spls/gsp396/DRL2.ipynb  .
+
+###Task 4:
+ 
+Run all -> DRL2.ipynb
+ 
+PROJECT variable = project id
+
+###Task 5:
+ 
+Vertex AI > Model Registry > Import > model "drl-pilot-ranking"
+ 
+<choose As per the lab>
+ 
+Model Settings > Model Version 2.8 
+ 
+Location: gs://[project-id]/model
+
+###Task 6:
+//endpoint takes approximately 10 minutes to get deployed {So have to wait longer}
+Vertex AI > Create Endpoints "drl-pr-endpoint"
+ 
+<region as per the lab>
+ 
+Advanced scaling settings = n1-standard-2
+
+###Task 7:
+ 
+Add New cell in Notebook : //JUPYTERLAB Notebook
+ 
+ 
+from google.cloud import aiplatform
+ 
+PROJECT = '[project-id]'
+LOCATION = '[region]'
+ENDPOINT_ID = '[your-endpoint-id]'
+ 
+endpoint = aiplatform.Endpoint(ENDPOINT_ID, project=PROJECT, location=LOCATION)
+ 
+instances = [{'pilot_id': [11],
+          'ename': ['Practice'],
+          'events_name':['Project Manhattan'],
+          'minimum_time': [80.0]
+         }]
+ 
+endpoint.predict(instances = instances)
+
+
+-----------------
+end
+-----------------
